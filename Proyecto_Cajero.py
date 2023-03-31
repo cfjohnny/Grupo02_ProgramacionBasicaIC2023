@@ -1,54 +1,63 @@
+import os 
+import getpass
+import archivos
 import usuarios
-
-usuarioRegistrado = 2
+import constantes as const
 
 # ----------------------------Menu principal------------------------------
 
 while True:
     # menu principal
-    print("1.Registrar nuevo usuario")
-    intentos_1 = int(0)
-    print("2.Usuario registrado")
-    print("3.Configuración avanzada")
-    print("4.Salir")
-    opcion = int(input())
-    if opcion == 1: # opcion para registrase como nuevo usuario
+    print("\n+========= MENU PRINCIPAL ==========+")
+    print("| 1.Registrar nuevo usuario         |")
+    print("| 2.Usuario registrado              |")
+    print("| 3.Configuración avanzada          |")
+    print("| 4.Salir                           |")
+    print("+===================================+")
+    opcion = input('Seleccione una opcion: ')
+    intentos = 0
+
+    if opcion == const.registrarUsuario: # opcion para registrase como nuevo usuario
         #registrarUsuario(intentos_1)
-        import os 
-        while intentos_1 < 3: # numero de intentos para ingresar cedula correcta
+        while intentos < const.maximoIntentos: # numero de intentos para ingresar cedula correcta
             cedula = input("Ingrese su cedula\nLa cedula debe constar de 9 numeros\n")#solicitud de cedula
             if len(cedula) == 9: #cedula correcta
-                intentos_1 = 3
+                intentos = 3
+                ruta = f"{const.carpetaUsuarios}/{cedula}"
                 print("Cedula aceptada")
-                if os.path.isfile(cedula):
+                if os.path.isfile(ruta):
                     print(f"Ya existe una cuenta asociada a la cédula {cedula}.")
                     break
                 else:
-                    nombre = str(input("Ingrese primer nombre\n"))
-                    apellido1 = str(input("Ingrese primer apellido\n"))
-                    apellido2 = str(input("Ingrese segundo apellido\n"))
+                    nombre = input("Ingrese primer nombre\n")
+                    apellido1 = input("Ingrese primer apellido\n")
+                    apellido2 = input("Ingrese segundo apellido\n")
                     while True:
-                        import getpass
                         pin = getpass.getpass("Ingrese un PIN de 4 caracteres")
-                        if pin.__len__() == 4:
+                        if len(pin) == 4:
                             print("Pin aceptado")
                             while True:
                                 pinConfirmacion = getpass.getpass("Confirme su PIN")
-                                if pin==pinConfirmacion:
+                                if pin == pinConfirmacion:
+                                    rutaArchivos = ruta
                                     print(f"El usuario {cedula} ha sido creado con éxito.")
+
                                     # abre el archivo en modo escritura y lo guarda en la variable "archivo"
-                                    with open(cedula, "w") as archivo:
+                                    with archivos.abrirArchivo(const.carpetaUsuarios, cedula, "w") as archivo:
                                         # escribe cada variable en una línea separada
-                                        archivo.write("Cedula: " +cedula + "\n")
-                                        archivo.write("Nombre: " + nombre + "\n")
-                                        archivo.write("Primer apellido: " + apellido1 + "\n")
-                                        archivo.write("Segundo apellido: " + apellido2 + "\n")
-                                        archivo.write("Pin: " + pin + "\n")
+                                        archivo.writelines([
+                                            f"{cedula}\n",
+                                            f"{nombre}\n",
+                                            f"{apellido1}\n",
+                                            f"{apellido2}\n",
+                                            f"{pin}\n"
+                                        ])
                                     break
                                         
-                                else:
-                                    pin != pinConfirmacion
+                                elif pin != pinConfirmacion:
                                     print("PIN no coincide")
+                                else:
+                                    pass
                             break
                         else:
                             print("Error")
@@ -57,23 +66,27 @@ while True:
 
             else: # no se cumple con requerimientos de cedula
                 print("Error, no se digitaron la cantidad de caracteres requeridos")
-                intentos_1 = intentos_1 + 1
-                if intentos_1 == 3:
-                    print("""Se excedió el máximo de intentos
-para ingresar un numero de cedula valido, 
-volviendo al menú principal""")
-    elif opcion == usuarioRegistrado:  # opcion para usuario registrado
+                intentos = intentos + 1
+                if intentos == 3:
+                    print(
+                        """Se excedió el máximo de intentos
+                        para ingresar un numero de cedula valido, 
+                        volviendo al menú principal"""
+                    )
+    elif opcion == const.usuarioRegistrado:  # opcion para usuario registrado
         listaUsuarios = usuarios.cargarUsuarios()
+        
         if usuarios.existenUsuarios(listaUsuarios):
-            pass
+            estaAutenticado = usuarios.autenticarUsuario(listaUsuarios)
+            
+            if estaAutenticado:
+                usuarios.iniciarFlujo()
         else:
-            print("No existen usuarios registrados.")
-            print()
+            print("No existen usuarios registrados.\n")
             input('Presione ENTER para continuar...')
-            print()
-    elif opcion == 3:  # opcion para realizar la configuracion avanzada
+    elif opcion == const.configuracionAvanzada:  # opcion para realizar la configuracion avanzada
         print()
-    elif opcion == 4:  # opcion para salir del sistema
+    elif opcion == const.salirPrincipal:  # opcion para salir del sistema
         break
     else:
         print("Seleccione una opción valida")
