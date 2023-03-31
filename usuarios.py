@@ -25,7 +25,7 @@ def cargarUsuarios():
 
 
 def existenUsuarios(usuarios):
-    if usuarios.count() == 0:
+    if len(usuarios) == 0:
         return False
     else:
         return True
