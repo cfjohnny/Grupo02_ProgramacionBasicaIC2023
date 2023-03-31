@@ -1,6 +1,8 @@
+import usuarios
 
+usuarioRegistrado = 2
 
-#----------------------------Menu principal------------------------------
+# ----------------------------Menu principal------------------------------
 
 while True:
     # menu principal
@@ -60,11 +62,18 @@ while True:
                     print("""Se excedió el máximo de intentos
 para ingresar un numero de cedula valido, 
 volviendo al menú principal""")
-    elif opcion == 2: # opcion para usuario registrado
+    elif opcion == usuarioRegistrado:  # opcion para usuario registrado
+        listaUsuarios = usuarios.cargarUsuarios()
+        if usuarios.existenUsuarios(listaUsuarios):
+            pass
+        else:
+            print("No existen usuarios registrados.")
+            print()
+            input('Presione ENTER para continuar...')
+            print()
+    elif opcion == 3:  # opcion para realizar la configuracion avanzada
         print()
-    elif opcion == 3: # opcion para realizar la configuracion avanzada
-        print()
-    elif opcion == 4: # opcion para salir del sistema
+    elif opcion == 4:  # opcion para salir del sistema
         break
-    else: 
+    else:
         print("Seleccione una opción valida")
