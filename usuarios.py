@@ -60,7 +60,8 @@ def autenticarUsuario(usuarios):
 
     while not existeLaCedula(cedula, usuarios) and intentos < maximoIntentos:
         intentosRestantes = maximoIntentos - intentos
-        print(f'Cedula incorrecta. Intente de nuevo, intentos restantes: {intentosRestantes}')
+        print(
+            f'Cedula incorrecta. Intente de nuevo, intentos restantes: {intentosRestantes}')
         intentos += 1
         cedula = solicitarCedula()
 
@@ -75,7 +76,8 @@ def autenticarUsuario(usuarios):
 
     while not esValidoElPIN(cedula, pin, usuarios) and intentos < maximoIntentos:
         intentosRestantes = maximoIntentos - intentos
-        print(f'PIN incorrecto. Intente de nuevo, intentos restantes: {intentosRestantes}')
+        print(
+            f'PIN incorrecto. Intente de nuevo, intentos restantes: {intentosRestantes}')
         intentos += 1
         pin = solicitarPIN()
 
@@ -88,52 +90,57 @@ def autenticarUsuario(usuarios):
 
 
 def menuRetirarDinero():
-    print("\n========= RETIRAR DINERO =========")
-    print("Cuentas disponibles:")
-    print("1. Colones")
-    print("2. Dólares")
-    print("3. Bitcoin\n")
+    print("\n+========== RETIRAR DINERO ==========+")
+    print("| Cuentas disponibles:               |")
+    print("| 1. Colones                         |")
+    print("| 2. Dólares                         |")
+    print("| 3. Bitcoin                         |")
+    print("+====================================+")
 
 
 def menuDepositarDinero():
-    print("\n========= DEPOSITAR DINERO =========")
-    print("Cuentas disponibles:")
-    print("1. Colones")
-    print("2. Dólares")
-    print("3. Bitcoin\n")
+    print("\n+========== DEPOSITAR DINERO ==========+")
+    print("| Cuentas disponibles:                 |")
+    print("| 1. Colones                           |")
+    print("| 2. Dólares                           |")
+    print("| 3. Bitcoin                           |")
+    print("+======================================+")
 
 
 def mostrarSubmenu():
-    print("\n========= USUARIO REGISTRADO =========")
-    print("1. Retirar dinero")
-    print("2. Depositar dinero")
-    print("3. Ver saldo actual")
-    print("4. Pagar servicios")
-    print("5. Compra/Venta de Divisas")
-    print("6. Eliminar usuario")
-    print("7. Salir\n")
+    print("\n+========== USUARIO REGISTRADO ==========+")
+    print("| 1. Retirar dinero                      |")
+    print("| 2. Depositar dinero                    |")
+    print("| 3. Ver saldo actual                    |")
+    print("| 4. Pagar servicios                     |")
+    print("| 5. Compra/Venta de Divisas             |")
+    print("| 6. Eliminar usuario                    |")
+    print("| 7. Salir                               |")
+    print("+========================================+")
 
 
-def iniciarFlujo():
+def flujoPrincipal():
     while True:
         mostrarSubmenu()
         opcionUsuario = input('Seleccione una opcion: ')
 
         if opcionUsuario == retirarDinero:
-            print()
             menuRetirarDinero()
-            opcionRetirarDinero = input('¿De cual cuenta desea retirar dinero?\n')
+            opcionRetirarDinero = input(
+                '¿De cual cuenta desea retirar dinero?\n')
             # TODO: Implementar logica de retiro de dinero
+            raise NotImplementedError()
 
         elif opcionUsuario == depositarDinero:
-            print()
             menuDepositarDinero()
-            opcionDepositarDinero = input('¿A cuál cuenta desea acreditar el depósito de dinero?\n')
+            opcionDepositarDinero = input(
+                '¿A cuál cuenta desea acreditar el depósito de dinero?\n')
             # TODO: Implementar logica de deposito de dinero
+            raise NotImplementedError()
 
         elif opcionUsuario == verSaldoActual:
-            print()
             # TODO: Logica de ver saldos
+            raise NotImplementedError()
 
         elif opcionUsuario == salirUsuario:
             break
