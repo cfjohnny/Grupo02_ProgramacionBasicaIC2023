@@ -1,7 +1,8 @@
-import os 
+import os
 import getpass
 import archivos
 import usuarios
+import configuracion as config
 import constantes as const
 
 # ----------------------------Menu principal------------------------------
@@ -17,30 +18,36 @@ while True:
     opcion = input('Seleccione una opcion: ')
     intentos = 0
 
-    if opcion == const.registrarUsuario: # opcion para registrase como nuevo usuario
-        #registrarUsuario(intentos_1)
-        while intentos < const.maximoIntentos: # numero de intentos para ingresar cedula correcta
-            cedula = input("Ingrese su cedula\nLa cedula debe constar de 9 numeros\n")#solicitud de cedula
-            if len(cedula) == 9: #cedula correcta
+    if opcion == const.registrarUsuario:  # opcion para registrase como nuevo usuario
+        # registrarUsuario(intentos_1)
+        while intentos < const.maximoIntentos:  # numero de intentos para ingresar cedula correcta
+            # solicitud de cedula
+            cedula = input(
+                "Ingrese su cedula\nLa cedula debe constar de 9 numeros\n")
+            if len(cedula) == 9:  # cedula correcta
                 intentos = 3
                 ruta = f"{const.carpetaUsuarios}/{cedula}"
                 print("Cedula aceptada")
                 if os.path.isfile(ruta):
-                    print(f"Ya existe una cuenta asociada a la cédula {cedula}.")
+                    print(
+                        f"Ya existe una cuenta asociada a la cédula {cedula}.")
                     break
                 else:
                     nombre = input("Ingrese primer nombre\n")
                     apellido1 = input("Ingrese primer apellido\n")
                     apellido2 = input("Ingrese segundo apellido\n")
                     while True:
-                        pin = getpass.getpass("Ingrese un PIN de 4 caracteres")
-                        if len(pin) == 4:
+                        pinIngresado = getpass.getpass(
+                            "Ingrese un PIN de 4 caracteres")
+                        if len(pinIngresado) == 4:
                             print("Pin aceptado")
                             while True:
-                                pinConfirmacion = getpass.getpass("Confirme su PIN")
-                                if pin == pinConfirmacion:
+                                pinConfirmacion = getpass.getpass(
+                                    "Confirme su PIN")
+                                if pinIngresado == pinConfirmacion:
                                     rutaArchivos = ruta
-                                    print(f"El usuario {cedula} ha sido creado con éxito.")
+                                    print(
+                                        f"El usuario {cedula} ha sido creado con éxito.")
 
                                     # abre el archivo en modo escritura y lo guarda en la variable "archivo"
                                     with archivos.abrirArchivo(const.carpetaUsuarios, cedula, "w") as archivo:
@@ -50,11 +57,11 @@ while True:
                                             f"{nombre}\n",
                                             f"{apellido1}\n",
                                             f"{apellido2}\n",
-                                            f"{pin}\n"
+                                            f"{pinIngresado}\n"
                                         ])
                                     break
-                                        
-                                elif pin != pinConfirmacion:
+
+                                elif pinIngresado != pinConfirmacion:
                                     print("PIN no coincide")
                                 else:
                                     pass
@@ -62,9 +69,8 @@ while True:
                         else:
                             print("Error")
                             print("El PIN debe constar de 4 numeros")
-                            
 
-            else: # no se cumple con requerimientos de cedula
+            else:  # no se cumple con requerimientos de cedula
                 print("Error, no se digitaron la cantidad de caracteres requeridos")
                 intentos = intentos + 1
                 if intentos == 3:
@@ -75,17 +81,21 @@ while True:
                     )
     elif opcion == const.usuarioRegistrado:  # opcion para usuario registrado
         listaUsuarios = usuarios.cargarUsuarios()
-        
+
         if usuarios.existenUsuarios(listaUsuarios):
             estaAutenticado = usuarios.autenticarUsuario(listaUsuarios)
-            
             if estaAutenticado:
-                usuarios.iniciarFlujo()
+                usuarios.flujoPrincipal()
         else:
             print("No existen usuarios registrados.\n")
             input('Presione ENTER para continuar...')
     elif opcion == const.configuracionAvanzada:  # opcion para realizar la configuracion avanzada
-        print()
+        pinAdmin = config.solicitarPin()
+        if config.esAdmin(pinAdmin):
+            config.flujoPrincipal()
+        else:
+            print("El PIN ingresado es incorrecto.")
+            input('Presione ENTER para continuar...')
     elif opcion == const.salirPrincipal:  # opcion para salir del sistema
         break
     else:
