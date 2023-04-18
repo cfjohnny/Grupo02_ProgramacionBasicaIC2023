@@ -8,6 +8,9 @@ from constantes import \
     retirarDinero, \
     depositarDinero, \
     verSaldoActual, \
+    pagarServicios, \
+    compraVentaDivisas, \
+    eliminarUsuario ,\
     salirUsuario, \
     carpetaUsuarios, \
     maximoIntentos
@@ -57,44 +60,37 @@ def solicitarPIN():
 def autenticarUsuario(usuarios):
     # Solicitar y validar la cedula --------------------------------------------
     intentos = 1
-    cedula = solicitarCedula()
 
-    while not existeLaCedula(cedula, usuarios) and intentos < maximoIntentos:
-        intentosRestantes = maximoIntentos - intentos
-        print(f'Cedula incorrecta. Intente de nuevo... (intentos restantes: {intentosRestantes})')
-        intentos += 1
+    while True:
         cedula = solicitarCedula()
-
-    if intentos == maximoIntentos:
-        print('Ha alcanzado el maximo de intentos.\n')
-        return [False, None]
+        intentosRestantes = maximoIntentos - intentos
+        if existeLaCedula(cedula, usuarios):
+            break
+        elif intentosRestantes > 0:
+            print(f'Cedula incorrecta. Intente de nuevo... (intentos restantes: {intentosRestantes})')
+            intentos += 1
+        else:
+            print('Ha alcanzado el maximo de intentos.')
+            return [False, None]
     # ---------------------------------------------------------------------------
 
     # Solicitar y validar el PIN ------------------------------------------------
     intentos = 1
-    pin = solicitarPIN()
 
-    while not esValidoElPIN(cedula, pin, usuarios) and intentos < maximoIntentos:
-        intentosRestantes = maximoIntentos - intentos
-        print(f'PIN incorrecto. Intente de nuevo... (intentos restantes: {intentosRestantes})')
-        intentos += 1
+    while True:
         pin = solicitarPIN()
-
-    if intentos == maximoIntentos:
-        print('Ha alcanzado el maximo de intentos.\n')
-        return [False, None]
+        intentosRestantes = maximoIntentos - intentos
+        if esValidoElPIN(cedula, pin, usuarios):
+            break
+        elif intentosRestantes > 0:
+            print(f'PIN incorrecto. Intente de nuevo... (intentos restantes: {intentosRestantes})')
+            intentos += 1
+        else:
+            print('Ha alcanzado el maximo de intentos.')
+            return [False, None]
     # ---------------------------------------------------------------------------
 
     return [True, cedula]
-
-
-def menuDepositarDinero():
-    print("\n+========== DEPOSITAR DINERO ==========+")
-    print("| Cuentas disponibles:                 |")
-    print("| 1. Colones                           |")
-    print("| 2. Dólares                           |")
-    print("| 3. Bitcoin                           |")
-    print("+======================================+")
 
 
 def mostrarSubmenu():
@@ -118,17 +114,23 @@ def flujoPrincipal(cedula):
         saldos = cuentas.cargarSaldos(carpeta)
 
         if opcionUsuario == retirarDinero:
-            cuentas.retiroDeDinero(carpeta, saldos)
+            retiroValido = cuentas.retiroDeDinero(carpeta, saldos)
+            if not retiroValido:
+                break
 
         elif opcionUsuario == depositarDinero:
-            menuDepositarDinero()
-            opcionDepositarDinero = input(
-                '¿A cuál cuenta desea acreditar el depósito de dinero?\n')
-            # TODO: Implementar logica de deposito de dinero
-            raise NotImplementedError()
+            cuentas.depositoDeDinero(carpeta, saldos)
 
         elif opcionUsuario == verSaldoActual:
-            # TODO: Logica de ver saldos
+            cuentas.verSaldos(saldos)
+
+        elif opcionUsuario == pagarServicios:
+            raise NotImplementedError()
+
+        elif opcionUsuario == compraVentaDivisas:
+            raise NotImplementedError()
+
+        elif opcionUsuario == eliminarUsuario:
             raise NotImplementedError()
 
         elif opcionUsuario == salirUsuario:

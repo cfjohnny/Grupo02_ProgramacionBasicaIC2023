@@ -115,7 +115,7 @@ def flujoPrincipal():
         mostrarSubmenu()
         opcion = input("Seleccione una opcion: ")
 
-        if opcion == const.eliminarUsuario:
+        if opcion == const.configEliminarUsuario:
             cedula = input("Ingrese la cedula del usuario: ")
             eliminarUsuario(cedula)
         elif opcion == const.modificarTipoDeCambio:

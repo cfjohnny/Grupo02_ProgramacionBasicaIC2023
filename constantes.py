@@ -15,11 +15,13 @@ salirPrincipal = '4'
 retirarDinero = '1'
 depositarDinero = '2'
 verSaldoActual = '3'
-# ...
+pagarServicios = '4'
+compraVentaDivisas = '5'
+eliminarUsuario = '6'
 salirUsuario = '7'
 
 # Opciones de Configuracion Avanzada
-eliminarUsuario = '1'
+configEliminarUsuario = '1'
 modificarTipoDeCambio = '2'
 salirConfiguracion = '3'
 modificarCompraColones = '1'
@@ -51,3 +53,8 @@ compraBitcoinAColones = 9
 compraBitcoinADolares = 10
 ventaBitcoinAColones = 11
 ventaBitcoinADolares = 12
+
+# Posicion de los valores del archivo de saldos
+saldoColones = 0
+saldoDolares = 1
+saldoBitcoin = 2
