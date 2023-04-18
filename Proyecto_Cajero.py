@@ -45,20 +45,14 @@ while True:
                                 pinConfirmacion = getpass.getpass(
                                     "Confirme su PIN")
                                 if pinIngresado == pinConfirmacion:
-                                    rutaArchivos = ruta
-                                    print(
-                                        f"El usuario {cedula} ha sido creado con éxito.")
-
-                                    # abre el archivo en modo escritura y lo guarda en la variable "archivo"
-                                    with archivos.abrirArchivo(const.carpetaUsuarios, cedula, "w") as archivo:
-                                        # escribe cada variable en una línea separada
-                                        archivo.writelines([
-                                            f"{cedula}\n",
-                                            f"{nombre}\n",
-                                            f"{apellido1}\n",
-                                            f"{apellido2}\n",
-                                            f"{pinIngresado}\n"
-                                        ])
+                                    archivos.crearEstructuraArchivos([
+                                        cedula,
+                                        nombre,
+                                        apellido1,
+                                        apellido2,
+                                        pinIngresado,
+                                    ])
+                                    print(f"El usuario {cedula} ha sido creado con éxito.")
                                     break
 
                                 elif pinIngresado != pinConfirmacion:
@@ -83,9 +77,9 @@ while True:
         listaUsuarios = usuarios.cargarUsuarios()
 
         if usuarios.existenUsuarios(listaUsuarios):
-            estaAutenticado = usuarios.autenticarUsuario(listaUsuarios)
+            estaAutenticado, cedula = usuarios.autenticarUsuario(listaUsuarios)
             if estaAutenticado:
-                usuarios.flujoPrincipal()
+                usuarios.flujoPrincipal(cedula)
         else:
             print("No existen usuarios registrados.\n")
             input('Presione ENTER para continuar...')

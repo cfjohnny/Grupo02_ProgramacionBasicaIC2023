@@ -58,71 +58,48 @@ def guardarConfiguracion(configuracion):
         archivo.writelines(lineas)
 
 
-def modificarTipoCambio():
-    raise NotImplementedError()
+def modificarTipoCambio(opcion):
+    nuevaConfiguracion = cargarConfiguracion()
+    factores = [
+        ['de colones a bitcoin: ', 'de colones a dólares: '],
+        ['de colones a bitcoin: ', 'de colones a dólares: '],
+        ['de dólares a colones: ', 'de dólares a bitcoin: '],
+        ['de dólares a colones: ', 'de dólares a bitcoin: '],
+        ['de bitcoin a colones: ', 'de bitcoin a dólares: '],
+        ['de bitcoin a colones: ', 'de bitcoin a dólares: '],
+    ]
+    compraOVenta = "Compra"
+
+    if (opcion % 2) == 0:
+        compraOVenta = "Venta"
+
+    for i in range(2):
+        indice = (opcion * 2) - 1 + i
+        msjInput = input(f"{compraOVenta} {factores[opcion - 1][i]}")
+        valorFloat = float(msjInput)
+        nuevaConfiguracion[indice] = str(valorFloat)
+
+    return nuevaConfiguracion
 
 
 def flujoModificarTipoCambio():
-    opciones = [
-        const.modificarCompraColones,
-        const.modificarVentaColones,
-        const.modificarCompraDolares,
-        const.modificarVentaDolares,
-        const.modificarCompraBitcoin,
-        const.modificarVentaBitcoin,
-    ]
-    factores = [
-        [
-            const.modificarCompraColones,
-            'de colones a bitcoin: ',
-            'de colones a dólares: '
-        ],
-        [
-            const.modificarVentaColones,
-            'de colones a bitcoin: ',
-            'de colones a dólares: '
-        ],
-        [
-            const.modificarCompraDolares,
-            'de dólares a colones: ',
-            'de dólares a bitcoin: '
-        ],
-        [
-            const.modificarVentaDolares,
-            'de dólares a colones: ',
-            'de dólares a bitcoin: '
-        ],
-        [
-            const.modificarCompraBitcoin,
-            'de bitcoin a colones: ',
-            'de bitcoin a dólares: '
-        ],
-        [
-            const.modificarVentaBitcoin,
-            'de bitcoin a colones: ',
-            'de bitcoin a dólares: '
-        ],
-    ]
     while True:
-        configuracion = cargarConfiguracion()
+        configuracion = []
+        opciones = [
+            const.modificarCompraColones,
+            const.modificarVentaColones,
+            const.modificarCompraDolares,
+            const.modificarVentaDolares,
+            const.modificarCompraBitcoin,
+            const.modificarVentaBitcoin,
+        ]
 
         menuModificarTipoCambio()
-
         opcion = input("Seleccione una opcion: ")
-        opcionInt = int(opcion)
-        valorFloat = 0.0
 
         try:
             if opcion in opciones:
-                for i in range(2):
-                    compraOVenta = "Compra"
-                    if (opcionInt % 2) == 0:
-                        compraOVenta = "Venta"
-                    indice = (opcionInt * 2) - 1 + i
-                    msjInput = input(
-                        f"{compraOVenta} {factores[opcionInt - 1][i+1]}")
-                    valorFloat = float(msjInput)
-                    configuracion[indice] = str(valorFloat)
+                configuracion = modificarTipoCambio(int(opcion))
             elif opcion == const.salirModificar:
                 break
             else:
@@ -138,7 +115,7 @@ def flujoPrincipal():
         mostrarSubmenu()
         opcion = input("Seleccione una opcion: ")
 
-        if opcion == const.eliminarUsuario:
+        if opcion == const.configEliminarUsuario:
             cedula = input("Ingrese la cedula del usuario: ")
             eliminarUsuario(cedula)
         elif opcion == const.modificarTipoDeCambio:
