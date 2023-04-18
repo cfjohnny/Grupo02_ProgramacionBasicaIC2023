@@ -2,6 +2,7 @@ maximoIntentos = 3
 
 # constantes para el manejo de archivos
 carpetaUsuarios = 'usuarios'
+archivoSaldos = 'saldos'
 archivoConfig = 'config'
 
 # opciones del menu principal
@@ -38,9 +39,15 @@ pin = 4
 
 # Posicion de los valores de configuracion
 configPin = 0
-configCompraColones = 1
-configVentaColones = 2
-configCompraDolares = 3
-configVentaDolares = 4
-configCompraBitcoin = 5
-configVentaBitcoin = 6
+compraColonesABitcoin = 1
+compraColonesADolares = 2
+ventaColonesABitcoin = 3
+ventaColonesADolares = 4
+compraDolaresAColones = 5
+compraDolaresABitcoin = 6
+ventaDolaresAColones = 7
+ventaDolaresABitcoin = 8
+compraBitcoinAColones = 9
+compraBitcoinADolares = 10
+ventaBitcoinAColones = 11
+ventaBitcoinADolares = 12

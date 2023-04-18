@@ -1,6 +1,7 @@
 import os
 import getpass as gp
 import archivos
+import cuentas
 from constantes import \
     cedula, \
     pin, \
@@ -13,13 +14,13 @@ from constantes import \
 
 
 def cargarUsuarios():
-    todosLosArchivos = archivos.listarArchivos(carpetaUsuarios)
+    todosLosDirectorios = archivos.listarDirectorios(carpetaUsuarios)
     usuarios = []
 
-    for archivo in todosLosArchivos:
-        infoUsuario = None
+    for directorio in todosLosDirectorios:
+        infoUsuario = []
 
-        with archivos.abrirArchivo(carpetaUsuarios, archivo, "r") as archivoUsuario:
+        with archivos.abrirArchivo(f"{carpetaUsuarios}/{directorio}", "info", "r") as archivoUsuario:
             infoUsuario = archivoUsuario.readlines()
 
         usuarios.append([info.rstrip('\n') for info in infoUsuario])
@@ -60,14 +61,13 @@ def autenticarUsuario(usuarios):
 
     while not existeLaCedula(cedula, usuarios) and intentos < maximoIntentos:
         intentosRestantes = maximoIntentos - intentos
-        print(
-            f'Cedula incorrecta. Intente de nuevo, intentos restantes: {intentosRestantes}')
+        print(f'Cedula incorrecta. Intente de nuevo... (intentos restantes: {intentosRestantes})')
         intentos += 1
         cedula = solicitarCedula()
 
     if intentos == maximoIntentos:
         print('Ha alcanzado el maximo de intentos.\n')
-        return False
+        return [False, None]
     # ---------------------------------------------------------------------------
 
     # Solicitar y validar el PIN ------------------------------------------------
@@ -76,26 +76,16 @@ def autenticarUsuario(usuarios):
 
     while not esValidoElPIN(cedula, pin, usuarios) and intentos < maximoIntentos:
         intentosRestantes = maximoIntentos - intentos
-        print(
-            f'PIN incorrecto. Intente de nuevo, intentos restantes: {intentosRestantes}')
+        print(f'PIN incorrecto. Intente de nuevo... (intentos restantes: {intentosRestantes})')
         intentos += 1
         pin = solicitarPIN()
 
     if intentos == maximoIntentos:
         print('Ha alcanzado el maximo de intentos.\n')
-        return False
+        return [False, None]
     # ---------------------------------------------------------------------------
 
-    return True
-
-
-def menuRetirarDinero():
-    print("\n+========== RETIRAR DINERO ==========+")
-    print("| Cuentas disponibles:               |")
-    print("| 1. Colones                         |")
-    print("| 2. Dólares                         |")
-    print("| 3. Bitcoin                         |")
-    print("+====================================+")
+    return [True, cedula]
 
 
 def menuDepositarDinero():
@@ -119,17 +109,16 @@ def mostrarSubmenu():
     print("+========================================+")
 
 
-def flujoPrincipal():
+def flujoPrincipal(cedula):
+    carpeta = f"{carpetaUsuarios}/{cedula}"
+
     while True:
         mostrarSubmenu()
         opcionUsuario = input('Seleccione una opcion: ')
+        saldos = cuentas.cargarSaldos(carpeta)
 
         if opcionUsuario == retirarDinero:
-            menuRetirarDinero()
-            opcionRetirarDinero = input(
-                '¿De cual cuenta desea retirar dinero?\n')
-            # TODO: Implementar logica de retiro de dinero
-            raise NotImplementedError()
+            cuentas.retiroDeDinero(carpeta, saldos)
 
         elif opcionUsuario == depositarDinero:
             menuDepositarDinero()
