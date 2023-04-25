@@ -74,11 +74,11 @@ colegiosProfesionales = 20000
 tarjetaDeCredito =  7000
 
 #Pagos de servicios
-pagoElectricidad = '1'
-pagoAgua = '2'
-pagoTelefonia = '3'
-pagoInternet = '4'
-pagoImpuestos = '5'
-pagoColegiosProfesionales  = '6'
-pagoTarjetaDeCredito = '7'
-
+pagoElectricidad = 1
+pagoAgua = 2
+pagoTelefonia = 3
+pagoInternet = 4
+pagoImpuestos = 5
+pagoColegiosProfesionales  = 6
+pagoTarjetaDeCredito = 7
+pagoServicioSalir = 8

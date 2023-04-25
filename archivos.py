@@ -41,10 +41,3 @@ def crearEstructuraArchivos(usuario):
             f"{usuario[apellido2]}\n",
             f"{usuario[pin]}\n"
         ])
-    with abrirArchivo(carpeta, "saldos", "w") as archivo:
-        # Inicializar los saldos en 0
-        archivo.writelines([
-            f"0\n",
-            f"0\n",
-            f"0\n",
-        ])
