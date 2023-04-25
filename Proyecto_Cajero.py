@@ -2,8 +2,6 @@ import os
 import getpass
 import archivos
 import usuarios
-import cuentas
-from usuarios import generarServiciosAleatorios 
 import configuracion as config
 import constantes as const
 import DepositoObligatorioParaRegistrarUsuario as depositoObligatorioDelRegistro
@@ -29,7 +27,7 @@ while True:
                 intentos = 3
                 ruta = f"{const.carpetaUsuarios}/{cedula}"
                 print("Cedula aceptada")
-                if os.path.isfile(ruta):
+                if os.path.isdir(ruta):
                     print(
                         f"Ya existe una cuenta asociada a la cédula: {cedula}.") #Usuario digita una cedula que ya se encontraba en el sistema
                     break
@@ -53,6 +51,7 @@ while True:
                                             apellido2,
                                             pinIngresado,
                                         ])
+                                        usuarios.generarServiciosAleatorios(cedula)
                                         print(f"El usuario {cedula} ha sido creado con éxito.")
                                     else:
                                         pass

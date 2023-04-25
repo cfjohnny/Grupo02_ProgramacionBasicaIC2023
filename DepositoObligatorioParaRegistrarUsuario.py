@@ -1,6 +1,7 @@
 import archivos
 import cuentas
 import constantes as const
+import configuracion as config 
 #PARTE DEL DEPOSITO
 
 def depositoObligatorio(cedula):
