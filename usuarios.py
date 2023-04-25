@@ -257,10 +257,11 @@ def flujoPrincipal(cedula):
             menuPagarServicios(cedula)
 
         elif opcionUsuario == compraVentaDivisas:
-            raise NotImplementedError()
+            cuentas.compraVentaDivisas(cedula)
 
         elif opcionUsuario == eliminarUsuario:
-            raise NotImplementedError()
+            configuracion.eliminarUsuario(cedula)
+            break
 
         elif opcionUsuario == salirUsuario:
             break

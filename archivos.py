@@ -20,7 +20,11 @@ def listarDirectorios(carpeta):
 
 
 def eliminarArchivo(ruta):
-    os.remove(ruta)
+    archivos = os.listdir(ruta)
+    for archivo in archivos:
+        carpeta = os.path.join(ruta, archivo)
+        os.remove(carpeta)
+    os.rmdir(ruta)
 
 
 def crearSiNoExiste(ruta):
