@@ -8,8 +8,8 @@ def depositoObligatorio(cedula):
     tasaDeCambio = [1, 0, 0]
     with archivos.abrirArchivo('', const.archivoConfig, 'r') as config:
         lineas = [linea.rstrip('\n') for linea in config.readlines()]
-        tasaDeCambio[1] = float(lineas[7])
-        tasaDeCambio[2] = float(lineas[11])
+        tasaDeCambio[const.saldoDolares] = float(lineas[const.compraColonesADolares])
+        tasaDeCambio[const.saldoBitcoin] = float(lineas[const.compraColonesABitcoin])
 
     intentos = 3 #El usuario solo tendra 3 intentos para digitar el monto minimo correcto
     while intentos > 0:
