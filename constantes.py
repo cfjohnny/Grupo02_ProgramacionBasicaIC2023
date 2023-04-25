@@ -1,3 +1,4 @@
+#CONSTANTES 
 maximoIntentos = 3
 
 # constantes para el manejo de archivos
@@ -58,3 +59,26 @@ ventaBitcoinADolares = 12
 saldoColones = 0
 saldoDolares = 1
 saldoBitcoin = 2
+
+#Deposito Obligatorio en el registro de usuario
+montoMinimo = 100000
+moneda = 0
+
+#Costos de servicios: 
+electricidad = 10000
+agua = 8000
+telefonia = 5000
+internet = 15000
+impuestos = 10000
+colegiosProfesionales = 20000
+tarjetaDeCredito =  7000
+
+#Pagos de servicios
+pagoElectricidad = '1'
+pagoAgua = '2'
+pagoTelefonia = '3'
+pagoInternet = '4'
+pagoImpuestos = '5'
+pagoColegiosProfesionales  = '6'
+pagoTarjetaDeCredito = '7'
+
